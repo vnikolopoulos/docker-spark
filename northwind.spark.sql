@@ -1,58 +1,34 @@
-﻿/*---------------------------------------------------------------------- 
- Target DBMS:           H2			                                      
- Project name:          Northwind                                       
- Author:                Johannes Trame                                   
- Created on:            2014-12-27 09:00                                
- ---------------------------------------------------------------------- */
 CREATE DATABASE northwind;
 
-\c northwind;
+USE northwind;
 
-/*---------------------------------------------------------------------- 
- Tables                                                                 
- ---------------------------------------------------------------------- 
- ---------------------------------------------------------------------- 
- Add table "Categories"                                                 
- ---------------------------------------------------------------------- */
 
-CREATE TABLE Categories (
-    
-    CategoryName VARCHAR(15) NOT NULL,
+CREATE TABLE Categories (  
+    CategoryName VARCHAR(15)  ,
     Description VARCHAR,
     Picture VARCHAR(255),
-    CategoryID SERIAL,
-    CONSTRAINT PK_Categories PRIMARY KEY (CategoryID)
+    CategoryID SERIAL
 );
 
 CREATE INDEX CategoryName ON Categories (CategoryName);
 
-/*---------------------------------------------------------------------- 
- Add table "CustomerCustomerDemo"                                       
- ---------------------------------------------------------------------- */
 
 CREATE TABLE CustomerCustomerDemo (
-    CustomerID VARCHAR(5) NOT NULL,
-    CustomerTypeID VARCHAR(10) NOT NULL,
-    CONSTRAINT PK_CustomerCustomerDemo PRIMARY KEY (CustomerID, CustomerTypeID)
+    CustomerID VARCHAR(5)  ,
+    CustomerTypeID VARCHAR(10)  
 );
 
- /*---------------------------------------------------------------------- 
- Add table "CustomerDemographics"                                       
- ---------------------------------------------------------------------- */
+
 
 CREATE TABLE CustomerDemographics (
-    CustomerTypeID VARCHAR(10) NOT NULL,
-    CustomerDesc VARCHAR,
-    CONSTRAINT PK_CustomerDemographics PRIMARY KEY (CustomerTypeID)
+    CustomerTypeID VARCHAR(10)  ,
+    CustomerDesc VARCHAR
 );
 
- /*---------------------------------------------------------------------- 
- Add table "Customers"                                                  
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Customers (
-    CustomerID VARCHAR(5) NOT NULL,
-    CompanyName VARCHAR(40) NOT NULL,
+    CustomerID VARCHAR(5)  ,
+    CompanyName VARCHAR(40)  ,
     ContactName VARCHAR(30),
     ContactTitle VARCHAR(30),
     Address VARCHAR(60),
@@ -61,8 +37,7 @@ CREATE TABLE Customers (
     PostalCode VARCHAR(10),
     Country VARCHAR(15),
     Phone VARCHAR(24),
-    Fax VARCHAR(24),
-    CONSTRAINT PK_Customers PRIMARY KEY (CustomerID)
+    Fax VARCHAR(24)
 );
 
 CREATE INDEX City ON Customers (City);
@@ -73,14 +48,11 @@ CREATE INDEX PostalCodeCustomers ON Customers (PostalCode);
 
 CREATE INDEX RegionIDX ON Customers (Region);
 
- /*---------------------------------------------------------------------- 
- Add table "Employees"                                                  
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Employees (
     
-    LastName VARCHAR(20) NOT NULL,
-    FirstName VARCHAR(10) NOT NULL,
+    LastName VARCHAR(20)  ,
+    FirstName VARCHAR(10)  ,
     Title VARCHAR(30),
     TitleOfCourtesy VARCHAR(25),
     BirthDate TIMESTAMP,
@@ -92,44 +64,33 @@ CREATE TABLE Employees (
     Country VARCHAR(15),
     HomePhone VARCHAR(24),
     Extension VARCHAR(4),
-    Notes VARCHAR NOT NULL,
+    Notes VARCHAR  ,
     ReportsTo INTEGER,
     PhotoPath VARCHAR(255),
     Salary FLOAT,
-    EmployeeID SERIAL,
-    CONSTRAINT PK_Employees PRIMARY KEY (EmployeeID)
+    EmployeeID SERIAL
 );
 
 CREATE INDEX LastName ON Employees (LastName);
 
 CREATE INDEX PostalCodeEmpolyees ON Employees (PostalCode);
 
-/*---------------------------------------------------------------------- 
- Add table "EmployeeTerritories"                                        
- ---------------------------------------------------------------------- */
 
 CREATE TABLE EmployeeTerritories (
-    EmployeeID INTEGER NOT NULL,
-    TerritoryID VARCHAR(20) NOT NULL,
-    CONSTRAINT PK_EmployeeTerritories PRIMARY KEY (EmployeeID, TerritoryID)
+    EmployeeID INTEGER  ,
+    TerritoryID VARCHAR(20)  
 );
 
-/*---------------------------------------------------------------------- 
- Add table "OrderDetails"                                              
- ---------------------------------------------------------------------- */
 
 CREATE TABLE OrderDetails (
-    OrderID INTEGER NOT NULL,
-    ProductID INTEGER NOT NULL,
-    UnitPrice DECIMAL(10,4) NOT NULL DEFAULT 0,
-    Quantity SMALLINT NOT NULL DEFAULT 1,
-    Discount DECIMAL(8,0) NOT NULL DEFAULT 0,
+    OrderID INTEGER  ,
+    ProductID INTEGER  ,
+    UnitPrice DECIMAL(10,4)   DEFAULT 0,
+    Quantity SMALLINT   DEFAULT 1,
+    Discount DECIMAL(8,0)   DEFAULT 0,
     CONSTRAINT PK_OrderDetails PRIMARY KEY (OrderID, ProductID)
 );
 
-/*---------------------------------------------------------------------- 
- Add table "Orders"                                                     
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Orders (
     OrderID SERIAL,
@@ -155,13 +116,10 @@ CREATE INDEX ShippedDate ON Orders (ShippedDate);
 
 CREATE INDEX ShipPostalCode ON Orders (ShipPostalCode);
 
-/*---------------------------------------------------------------------- 
- Add table "Products"                                                   
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Products (
     ProductID SERIAL,
-    ProductName VARCHAR(40) NOT NULL,
+    ProductName VARCHAR(40)  ,
     SupplierID INTEGER,
     CategoryID INTEGER,
     QuantityPerUnit VARCHAR(20),
@@ -169,40 +127,31 @@ CREATE TABLE Products (
     UnitsInStock SMALLINT DEFAULT 0,
     UnitsOnOrder SMALLINT DEFAULT 0,
     ReorderLevel SMALLINT DEFAULT 0,
-    Discontinued BIT NOT NULL DEFAULT 0::bit,
+    Discontinued BIT   DEFAULT 0::bit,
     CONSTRAINT PK_Products PRIMARY KEY (ProductID)
 );
 
 CREATE INDEX ProductName ON Products (ProductName);
 
-/*---------------------------------------------------------------------- 
- Add table "Region"                                                     
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Region (
-    RegionID INTEGER NOT NULL,
-    RegionDescription VARCHAR(52) NOT NULL,
+    RegionID INTEGER  ,
+    RegionDescription VARCHAR(52)  ,
     CONSTRAINT PK_Region PRIMARY KEY (RegionID)
 );
 
-/*---------------------------------------------------------------------- 
- Add table "Shippers"                                                   
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Shippers (
     ShipperID SERIAL,
-    CompanyName VARCHAR(40) NOT NULL,
+    CompanyName VARCHAR(40)  ,
     Phone VARCHAR(24),
     CONSTRAINT PK_Shippers PRIMARY KEY (ShipperID)
 );
 
-/*---------------------------------------------------------------------- 
- Add table "Suppliers"                                                  
- ---------------------------------------------------------------------- */
 
 CREATE TABLE Suppliers (
     SupplierID SERIAL,
-    CompanyName VARCHAR(40) NOT NULL,
+    CompanyName VARCHAR(40)  ,
     ContactName VARCHAR(30),
     ContactTitle VARCHAR(30),
     Address VARCHAR(60),
@@ -220,20 +169,14 @@ CREATE INDEX SuppliersCompanyName ON Suppliers (CompanyName);
 
 CREATE INDEX SuppliersPostalCode ON Suppliers (PostalCode);
 
-/*---------------------------------------------------------------------- 
- Add table "Territories"                                                
- ---------------------------------------------------------------------- */
-
 CREATE TABLE Territories (
-    TerritoryID VARCHAR(20) NOT NULL,
-    TerritoryDescription VARCHAR(50) NOT NULL,
-    RegionID INTEGER NOT NULL,
+    TerritoryID VARCHAR(20)  ,
+    TerritoryDescription VARCHAR(50)  ,
+    RegionID INTEGER  ,
     CONSTRAINT PK_Territories PRIMARY KEY (TerritoryID)
 );
 
-/*---------------------------------------------------------------------- 
- Add info into "Categories"                                             
- ---------------------------------------------------------------------- */
+
 BEGIN; 
 TRUNCATE TABLE Categories;
 INSERT INTO Categories VALUES('Beverages','Soft drinks, coffees, teas, beers, and ales','/images/optique-northwind-icons/category_beverages.png');
@@ -244,9 +187,7 @@ INSERT INTO Categories VALUES('Grains/Cereals','Breads, crackers, pasta, and cer
 INSERT INTO Categories VALUES('Meat/Poultry','Prepared meats','/images/optique-northwind-icons/category_meat.png');
 INSERT INTO Categories VALUES('Produce','Dried fruit and bean curd','/images/optique-northwind-icons/category_produce.png');
 INSERT INTO Categories VALUES('Seafood','Seaweed and fish','/images/optique-northwind-icons/category_seafood.png');
-/*---------------------------------------------------------------------- 
- Add info into "Customers"                                              
- ---------------------------------------------------------------------- */
+
 
 TRUNCATE TABLE Customers;
 INSERT INTO Customers (CustomerID, CompanyName, ContactName, ContactTitle, Address, City, Region, PostalCode, Country, Phone, Fax)
@@ -462,9 +403,6 @@ INSERT INTO Employees VALUES('Callahan','Laura','Inside Sales Coordinator','Ms.'
 INSERT INTO Employees VALUES('Dodsworth','Anne','Sales Representative','Ms.','1966-01-27','1994-11-15','7 Houndstooth Rd.','London',NULL,'WG2 7LT','UK','(71) 555-4444','452','Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German.',5
 ,'/images/optique-northwind-icons/employee_woman_5.png','2333.33');
 
-/*---------------------------------------------------------------------- 
- Add info into "EmployeeTerritories"                                    
- ---------------------------------------------------------------------- */
 
 TRUNCATE TABLE EmployeeTerritories;
 INSERT INTO EmployeeTerritories (EmployeeID, TerritoryID)
@@ -566,9 +504,6 @@ VALUES(9, '55113');
 INSERT INTO EmployeeTerritories (EmployeeID, TerritoryID)
 VALUES(9, '55439');
 
-/* ---------------------------------------------------------------------- 
- Add info into "Orders"                                                 
- ---------------------------------------------------------------------- */
 
 INSERT INTO ORDERS(ORDERID, CUSTOMERID, EMPLOYEEID, ORDERDATE, REQUIREDDATE, SHIPPEDDATE, SHIPVIA, FREIGHT, SHIPNAME, SHIPADDRESS, SHIPCITY, SHIPREGION, SHIPPOSTALCODE, SHIPCOUNTRY) VALUES
 (10248, 'VINET', 5, TIMESTAMP '2013-01-04 00:00:00.0', TIMESTAMP '2013-02-01 00:00:00.0', TIMESTAMP '2013-01-16 00:00:00.0', 3, 32.3800, 'Vins et alcools Chevalier', '59 rue de l-Abbaye', 'Reims', NULL, '51100', 'France'),
@@ -4191,7 +4126,7 @@ SELECT Orders.ShippedDate,
        Order Subtotals.Subtotal
 FROM Orders 
      INNER JOIN Order Subtotals ON Orders.OrderID = Order Subtotals.OrderID
-WHERE Orders.ShippedDate IS NOT NULL;
+WHERE Orders.ShippedDate IS  ;
 
  ---------------------------------------------------------------------- 
  Add View "Summary of Sales by Year"                                    
@@ -4203,7 +4138,7 @@ SELECT      Orders.ShippedDate,
  Order Subtotals.Subtotal
 FROM Orders 
      INNER JOIN Order Subtotals ON Orders.OrderID = Order Subtotals.OrderID
-WHERE Orders.ShippedDate IS NOT NULL;
+WHERE Orders.ShippedDate IS  ;
 
  ---------------------------------------------------------------------- 
  Add View "Category Sales for 1997"                                     

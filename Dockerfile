@@ -1,20 +1,7 @@
-FROM debian:jessie
+FROM ubuntu:14.04
 MAINTAINER Getty Images "https://github.com/gettyimages"
 
-RUN apt-get update \
- && apt-get install -y locales \
- && dpkg-reconfigure -f noninteractive locales \
- && locale-gen C.UTF-8 \
- && /usr/sbin/update-locale LANG=C.UTF-8 \
- && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
- && locale-gen \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
 
-# Users with other locales should set this in their derivative image
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
 
 RUN apt-get update \
  && apt-get install -y curl unzip \
@@ -69,12 +56,13 @@ RUN curl -sL --retry 3 \
 
 
 RUN mkdir /docker-entrypoint-initdb.d
-ADD northwind.post.sql  /docker-entrypoint-initdb.d/
+ADD northwind.spark.sql  /docker-entrypoint-initdb.d/
 COPY docker-entrypoint.sh /
 
 WORKDIR $SPARK_HOME
 ENTRYPOINT ["/bin/bash","/docker-entrypoint.sh"]
 EXPOSE 8080
+EXPOSE 10000
 
 CMD ["root"]
 
