@@ -56,6 +56,7 @@ RUN curl -sL --retry 3 \
 
 
 RUN mkdir /docker-entrypoint-initdb.d
+ADD data /docker-entrypoint-initdb.d/data
 ADD northwind.spark.sql  /docker-entrypoint-initdb.d/
 COPY docker-entrypoint.sh /
 

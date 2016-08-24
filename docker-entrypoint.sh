@@ -13,7 +13,7 @@ done
 
 echo "Importing data..."
 ./bin/beeline -u jdbc:hive2://localhost:10000 -f /docker-entrypoint-initdb.d/northwind.spark.sql
-echo "Ready..."
+echo "Ready!"
 tail -f /usr/spark-2.0.0/logs/spark--org.apache.spark.deploy.master.Master*
 
 #exec "$@"
