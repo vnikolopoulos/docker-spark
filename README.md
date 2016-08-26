@@ -1,38 +1,73 @@
 
-# spark
+# Spark with Optique data - Docker 
 
-A `debian:jessie` based [Spark](http://spark.apache.org) container. Use it in a standalone cluster with the accompanying `docker-compose.yml`, or as a base for more complex recipes.
+## Docker Installation
 
-## docker example
+Install Docker (on linux) or Docker-toolbox (on Windows/Mac) 
+  - [Mac](https://docs.docker.com/mac/step_one/)
+  - [Windows](https://docs.docker.com/windows/step_one/)
+  - [Linux](https://docs.docker.com/linux/step_one/)  
 
-To run `SparkPi`, run the image with Docker:
+Linux only: [Use docker without sudo](http://askubuntu.com/a/477554)
 
-    docker run --rm -it -p 4040:4040 gettyimages/spark bin/run-example SparkPi 10
+## Spark Docker Installation
+1. Open a terminal (Docker Quickstart Terminal on Windows/Mac or standard terminal on Linux).
+2. Download zip and unzip or “git clone” from NorthwindSpark repository
 
-To start `spark-shell` with your AWS credentials:
 
-    docker run --rm -it -e "AWS_ACCESS_KEY_ID=YOURKEY" -e "AWS_SECRET_ACCESS_KEY=YOURSECRET" -p 4040:4040 gettyimages/spark bin/spark-shell
+  ```bash
+  $ git clone https://github.com/vnikolopoulos/docker-spark.git
+  ```
+3. Linux only:
 
-To do a thing with Pyspark
+  ```bash
+  $ sudo service docker start
+  ```
+4. Navigate to the Stream Server Directory:
 
-    echo "import pyspark\nprint(pyspark.SparkContext().parallelize(range(0, 10)).count())" > count.py
-    docker run --rm -it -p 4040:4040 -v $(pwd)/count.py:/count.py gettyimages/spark bin/pyspark /count.py
+  ```bash
+  $ cd <path to Docker-SparkNorthwind>
+  ```
+4. Windows only
 
-## docker-compose example
+  ```bash
+  $ dos2unix docker-entrypoint.sh
+  ```
+6. Build Spark Northwind image (this may take a few minutes the first time):
 
-To create a simplistic standalone cluster with [docker-compose](http://docs.docker.com/compose):
+  ```bash
+  $ docker build -t sparkservernw .
+  ```
 
-    docker-compose up
+## Run  Spark Northwind container
+1. Execute:
+```bash
+$ docker run --rm -it -p 8080:8080 -p 10000:10000 --name sparkservernw sparkservernw
+```
+2. To change the port Spark's UI listens to, you need to change the first part of the "-p <chage-this>:8080" argument.
+3. To change the port Spark's JDBC server listens to, you need to change the first part of the "-p <chage-this>:10000" argument.
+4. Leave this console open while you are working and then [stop the container](#exit-container).
+5. Find your docker machine IP
+  1. On Linux is: localhost
+  2. On Windows/Mac open a new Docker Quickstart Terminal and run:
+  ```
+  $ docker-machine ip
+  ```
+  It will return your docker-machine ip **(from now on use this instead of localhost if you are on Windows or Mac)**.
 
-The SparkUI will be running at `http://${YOUR_DOCKER_HOST}:8080` with one worker listed. To run `pyspark`, exec into a container:
+## Functionality and Settings
+- The Spark server inside the container has one database named "northwind"
+- The default username and password are both empty
 
-    docker exec -it dockerspark_master_1 /bin/bash
-    bin/pyspark
 
-To run `SparkPi`, exec into a container:
+## Exit Spark Northwind container
+To gracefully stop your docker container:
 
-    docker exec -it dockerspark_master_1 /bin/bash
-    bin/run-example SparkPi 10
+1. Select your Spark Northwind docker console.
+2. Press Ctrl+C.
+3. Close the console.
+
+
 
 ## license
 
